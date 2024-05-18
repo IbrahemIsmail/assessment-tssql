@@ -43,6 +43,7 @@ describe("auth routes", async () => {
     it("should throw error on duplicate user", async () => {
       await expect(createCaller({}).auth.register(user)).rejects.toThrowError(
         new trpcError({
+          message: "User already exists",
           code: "BAD_REQUEST",
         })
       );
