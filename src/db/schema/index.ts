@@ -104,9 +104,15 @@ export const plans = sqliteTable("plans", {
 
 export const subscriptions = sqliteTable("subscriptions", {
   id: integer("id").primaryKey().notNull(),
-  userId: integer("userId").notNull().references(() => users.id, { onDelete: "restrict", onUpdate: "restrict" }),
-  teamId: integer("teamId").notNull().references(() => teams.id, { onDelete: "restrict", onUpdate: "restrict" }),
-  planId: integer("planId").notNull().references(() => plans.id, { onDelete: "restrict", onUpdate: "restrict" }),
+  userId: integer("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "restrict", onUpdate: "restrict" }),
+  teamId: integer("teamId")
+    .notNull()
+    .references(() => teams.id, { onDelete: "restrict", onUpdate: "restrict" }),
+  planId: integer("planId")
+    .notNull()
+    .references(() => plans.id, { onDelete: "restrict", onUpdate: "restrict" }),
   startDate: timestamp("startDate").notNull(),
   endDate: timestamp("endDate").notNull(),
   createdAt: timestamp("createdAt").notNull(),
@@ -115,7 +121,12 @@ export const subscriptions = sqliteTable("subscriptions", {
 
 export const orders = sqliteTable("orders", {
   id: integer("id").primaryKey().notNull(),
-  subscriptionId: integer("subscriptionId").notNull().references(() => subscriptions.id, { onDelete: "restrict", onUpdate: "restrict" }),
+  subscriptionId: integer("subscriptionId")
+    .notNull()
+    .references(() => subscriptions.id, {
+      onDelete: "restrict",
+      onUpdate: "restrict",
+    }),
   amount: integer("amount").notNull(),
   status: text("status").notNull(),
   createdAt: timestamp("createdAt").notNull(),
@@ -124,7 +135,12 @@ export const orders = sqliteTable("orders", {
 
 export const subscriptionActivations = sqliteTable("subscriptionActivations", {
   id: integer("id").primaryKey().notNull(),
-  orderId: integer("orderId").notNull().references(() => orders.id, { onDelete: "restrict", onUpdate: "restrict" }),
+  orderId: integer("orderId")
+    .notNull()
+    .references(() => orders.id, {
+      onDelete: "restrict",
+      onUpdate: "restrict",
+    }),
   activationDate: timestamp("activationDate").notNull(),
   cycleType: text("cycleType").notNull(),
   cycleNumber: integer("cycleNumber").notNull(),

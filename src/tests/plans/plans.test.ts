@@ -94,18 +94,18 @@ describe("plans routes", async () => {
       const regularUserInDb = await db.query.users.findFirst({
         where: eq(schema.users.email, regularUser.email),
       });
-  
+
       // Retrieve the plan as the regular user
       const retrievedPlan = await createAuthenticatedCaller({
         userId: regularUserInDb!.id,
       }).plans.get(basicPlanId);
-      
+
       expect(retrievedPlan).toBeDefined();
       expect(retrievedPlan.name).toBe("Basic Plan");
       expect(retrievedPlan.price).toBe(15);
     });
   });
-  
+
   describe("calculate prorated upgrade price", async () => {
     it("should calculate prorated upgrade price correctly as a regular user", async () => {
       // Register a regular user
@@ -120,21 +120,21 @@ describe("plans routes", async () => {
       const regularUserInDb = await db.query.users.findFirst({
         where: eq(schema.users.email, regularUser.email),
       });
-  
+
       const basicPlan = { name: "Basic Plan", price: 10 };
       const premiumPlan = { name: "Premium Plan", price: 30 };
-  
+
       const { planId: basicPlanId } = await createAuthenticatedCaller({
         userId: adminInDb!.id,
       }).plans.create(basicPlan);
-  
+
       const { planId: premiumPlanId } = await createAuthenticatedCaller({
         userId: adminInDb!.id,
       }).plans.create(premiumPlan);
-  
+
       // Calculate prorated upgrade price as the regular user
       const remainingDays = 15; // Assume 15 days left in the current cycle
-  
+
       const { proratedPrice } = await createAuthenticatedCaller({
         userId: regularUserInDb!.id,
       }).plans.calculateProratedUpgradePrice({
@@ -142,12 +142,12 @@ describe("plans routes", async () => {
         newPlanId: premiumPlanId,
         remainingDays,
       });
-  
-      const expectedProratedPrice = ((premiumPlan.price - basicPlan.price) / 30) * remainingDays;
+
+      const expectedProratedPrice =
+        ((premiumPlan.price - basicPlan.price) / 30) * remainingDays;
       expect(proratedPrice).toBe(expectedProratedPrice);
     });
   });
-  
 
   describe("unauthorized access prevention", async () => {
     it("should prevent non-admin from creating a plan", async () => {

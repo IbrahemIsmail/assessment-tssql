@@ -10,7 +10,7 @@ export const appRouter = router({
   // protected
   account,
   teams,
-  plans
+  plans,
 });
 
 export type AppRouter = typeof appRouter;

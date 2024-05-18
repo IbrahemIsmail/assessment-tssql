@@ -72,7 +72,7 @@ export const auth = router({
         success: true,
       };
     }),
-    register: publicProcedure
+  register: publicProcedure
     .input(
       z.object({
         name: z.string(),
@@ -84,12 +84,19 @@ export const auth = router({
       })
     )
     .mutation(async ({ input }) => {
-      const { name, email, password, timezone, locale, isAdmin = false } = input; // Default isAdmin to false if not provided
+      const {
+        name,
+        email,
+        password,
+        timezone,
+        locale,
+        isAdmin = false,
+      } = input; // Default isAdmin to false if not provided
       const emailNormalized = email.toLowerCase();
       const user = await db.query.users.findFirst({
         where: eq(schema.users.email, emailNormalized),
       });
-  
+
       // Check if the user already exists
       if (user) {
         throw new trpcError({
@@ -97,10 +104,10 @@ export const auth = router({
           message: "User already exists",
         });
       }
-  
+
       // Hash the password
       const hashedPassword = await bcryptjs.hash(password, salt);
-  
+
       // Create the user in the database
       const [createdUser] = await db
         .insert(schema.users)
@@ -115,7 +122,7 @@ export const auth = router({
           isAdmin, // Include isAdmin field
         })
         .returning();
-        
+
       // create random otpCode
       const otpCode = generateOtp();
       // create verify request

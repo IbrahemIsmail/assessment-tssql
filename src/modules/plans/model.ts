@@ -3,7 +3,13 @@ import { trpcError } from "../../trpc/core";
 import { eq } from "drizzle-orm";
 
 // Create method for creating a plan
-export const createPlan = async ({ name, price }: { name: string; price: number }) => {
+export const createPlan = async ({
+  name,
+  price,
+}: {
+  name: string;
+  price: number;
+}) => {
   const [plan] = await db
     .insert(schema.plans)
     .values({
@@ -27,7 +33,15 @@ export const createPlan = async ({ name, price }: { name: string; price: number 
 };
 
 // Update method for updating a plan
-export const updatePlan = async ({ planId, name, price }: { planId: number; name: string; price: number }) => {
+export const updatePlan = async ({
+  planId,
+  name,
+  price,
+}: {
+  planId: number;
+  name: string;
+  price: number;
+}) => {
   const updatedPlan = await db
     .update(schema.plans)
     .set({
@@ -52,7 +66,9 @@ export const updatePlan = async ({ planId, name, price }: { planId: number; name
 
 // Read method for retrieving plan information
 export const getPlan = async (planId: number) => {
-  const plan = await db.query.plans.findFirst({ where: eq(schema.plans.id, planId) });
+  const plan = await db.query.plans.findFirst({
+    where: eq(schema.plans.id, planId),
+  });
 
   if (!plan) {
     throw new trpcError({
@@ -65,7 +81,15 @@ export const getPlan = async (planId: number) => {
 };
 
 // Method for calculating prorated upgrade price
-export const calculateProratedUpgradePrice = async ({ currentPlanId, newPlanId, remainingDays }: { currentPlanId: number; newPlanId: number; remainingDays: number }) => {
+export const calculateProratedUpgradePrice = async ({
+  currentPlanId,
+  newPlanId,
+  remainingDays,
+}: {
+  currentPlanId: number;
+  newPlanId: number;
+  remainingDays: number;
+}) => {
   const currentPlan = await getPlan(currentPlanId);
   const newPlan = await getPlan(newPlanId);
 
