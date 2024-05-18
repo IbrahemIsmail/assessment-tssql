@@ -9,7 +9,6 @@ describe("plans routes", async () => {
   let adminUser;
   let adminInDb;
   let basicPlanId: number;
-  let premiumPlanId: number;
 
   beforeAll(async () => {
     await resetDb();
@@ -37,10 +36,9 @@ describe("plans routes", async () => {
     }).plans.create(basicPlan);
     basicPlanId = basicId;
 
-    const { planId: premiumId } = await createAuthenticatedCaller({
+    await createAuthenticatedCaller({
       userId: adminInDb!.id,
     }).plans.create(premiumPlan);
-    premiumPlanId = premiumId;
   });
 
   describe("create plan", async () => {
