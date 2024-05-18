@@ -81,3 +81,5 @@ How would this affect the current plan upgrade calculation?
 
 ### answer here:
 ---
+
+Adding both defaultUsers & pricePerUser would definitely make the calculation more complex. There are factors like the upgraded plan having a higher defaultUser amount than the current plan for the user. I am assuming that the user would get some sort of credit for having a number of users less than the defaultUsers. On the other hand, you would need to calculate the extra cost of having the users more than the defaultUsers. Overall, I like this approach because it is more clear to users how each person on their team will cost.
