@@ -98,8 +98,6 @@ export const plans = sqliteTable("plans", {
   id: integer("id").primaryKey().notNull(),
   name: text("name").notNull(),
   price: integer("price").notNull(),
-  defaultUsers: integer("defaultUsers").notNull(),
-  pricePerUser: integer("pricePerUser").notNull(),
   createdAt: timestamp("createdAt").notNull(),
   updatedAt: timestamp("updatedAt").notNull(),
 });
